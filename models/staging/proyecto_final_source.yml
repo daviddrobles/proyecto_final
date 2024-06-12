@@ -1,0 +1,57 @@
+version: 2
+
+sources:
+
+  - name: proyecto_final # name of the source 
+    schema: proyecto_final # this is the schema our raw data lives in
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # this is the name of our database
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    # freshness:
+    #  warn_after: {count: 24, period: hour}
+    #   error_after: {count: 48, period: hour}
+
+    tables:
+
+      - name: JUGADORES
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: name
+            tests:
+              - not_null
+          - name: full_name
+          - name: age
+            tests:
+              - not_null
+          - name: height
+            tests:
+              - not_null
+          - name: nationality
+            tests:
+              - not_null    
+          - name: place_of_birth      
+          - name: price
+          - name: max_price
+          - name: position
+            tests:
+              - not_null
+          - name: shirt_nr
+            tests:
+              - not_null
+          - name: foot
+          - name: club
+            tests:
+              - not_null
+          - name: contract_expires
+          - name: joined_club
+            tests:
+              - not_null
+          - name: player_agent
+          - name: outfitter
