@@ -55,3 +55,34 @@ sources:
               - not_null
           - name: player_agent
           - name: outfitter
+
+      - name: RESULTADOS
+        columns:
+          - name: id_partido
+            tests:
+              - unique
+              - not_null
+          - name: equipo_local
+            tests:
+              - not_null
+          - name: resultado
+            tests:
+              - not_null
+          - name: equipo_visitante
+            tests:
+              - not_null
+          - name: fecha
+            tests:
+              - not_null
+          - name: ganador
+            tests:
+              - not_null    
+          - name: goles_local 
+            tests:
+              - not_null     
+          - name: goles_visitante
+            tests:
+              - not_null
+          - name: mvp
+            tests:
+              - not_null

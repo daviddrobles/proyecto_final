@@ -106,3 +106,409 @@ models:
               - not_null
         data_type: varchar(256)
         description: "Patrocionador del jugador"
+
+  - name: stg_proyecto_final_agente
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge todos los agentes existentes"
+    columns:
+      - name: id_agente
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Identificador unico del agente"
+
+      - name: agente
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del agente"
+
+  - name: stg_proyecto_final_equipos
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge todos los equipos existentes"
+    columns:
+      - name: id_equipo
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Identificador unico del equipo"
+
+      - name: equipo
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del equipo"
+
+  - name: stg_proyecto_final_informacion_jugador
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge la informacion de todos los jugadores"
+    columns:
+      - name: id_jugador
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('base_proyecto_final__JUGADORES')
+                  field: id_jugador
+        data_type: INT
+        description: "Identificador unico del jugador"
+
+      - name: nombre
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del jugador"
+
+      - name: edad
+        tests:
+              - not_null
+        data_type: NUMBER(38,0)
+        description: "Edad del jugador"
+
+      - name: altura
+        tests:
+              - not_null
+        data_type: NUMBER(38,2)
+        description: "Altura del jugador"
+
+      - name: id_nacionalidad
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_nacionalidad')
+                  field: id_nacionalidad
+        data_type: varchar(256)
+        description: "Identificador unico de la nacionalidad del jugador"
+
+      - name: id_lugar_nacimiento
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_lugar_nacimiento')
+                  field: id_lugar_nacimiento
+        data_type: varchar(256)
+        description: "Identificador unico del lugar de nacimiento del jugador"
+
+      - name: precio_millones
+        tests:
+              - not_null
+        data_type: NUMBER(38,3)
+        description: "Precio en millones de euros del jugador"
+
+      - name: precio_maximo__millones_historico
+        tests:
+              - not_null
+        data_type: NUMBER(38,2)
+        description: "Precio maximo en millones de euros del jugador"
+      
+      - name: id_posicion
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_posicion')
+                  field: id_posicion
+        data_type: varchar(256)
+        description: "Identificador unico de la posicion del jugador"
+
+      - name: numero_camiseta
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de camiseta del jugador"
+
+      - name: id_pierna_habil
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_pierna_habil')
+                  field: id_pierna_habil
+        data_type: varchar(256)
+        description: "Identificador unico de la pierna habil del jugador"
+      
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipo')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo"
+
+      - name: fecha_expiracion_contrato
+        data_type: DATE
+        description: "Fecha de expiracion del contrato actual del jugador"
+
+      - name: fecha_fichaje_equipo
+        tests:
+              - not_null
+        data_type: DATE
+        description: "Fecha de fichaje del jugador por su equipo"
+
+      - name: id_agente
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_agente')
+                  field: id_agente
+        data_type: varchar(256)
+        description: "Identificador unico del agente"
+
+      - name: id_sponsor
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_sponsor')
+                  field: id_sponsor
+        data_type: varchar(256)
+        description: "Identificador unico del patrocionador"
+
+  - name: stg_proyecto_final_lugar_nacimiento
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge todos los lugares de nacimiento existentes"
+    columns:
+      - name: id_lugar_nacimiento
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Identificador unico del lugar de nacimiento"
+
+      - name: lugar_nacimiento
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Lugar de nacimiento"
+
+  - name: stg_proyecto_final_nacionalidad
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge todas las nacionalidades existentes"
+    columns:
+      - name: id_nacionalidad
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Identificador unico de la nacionalidad"
+
+      - name: nacionalidad
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nacionalidades diferentes"
+
+  - name: stg_proyecto_final_nombre_jugadores
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge todos los nombres de los jugadores desglosados"
+    columns:
+      - name: id_jugador
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Identificador unico de cada jugador"
+
+      - name: nombre_conocido
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre por el que se conoce al jugador"
+
+      - name: nombre_jugador
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del jugador"
+
+      - name: primer_apellido
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Primer apellido del jugador"
+
+      - name: segundo_apellido
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Segundo apellido del jugador (o nombres/apellidos adicionales)"
+
+  - name: stg_proyecto_final_pierna_habil
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge los diferentes tipos de pierna habil"
+    columns:
+      - name: id_pierna_habil
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Identificador unico de la pierna habil"
+
+      - name: pierna_habil
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Pierna habil"
+
+  - name: stg_proyecto_final_posicion
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge las diferentes posiciones"
+    columns:
+      - name: id_posicion
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Identificador unico de la posicion"
+
+      - name: posicion
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Posiciones diferentes"
+
+  - name: stg_proyecto_final_sponsor
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge los diferentes patrocinadores"
+    columns:
+      - name: id_sponsor
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Identificador unico del patrocinador"
+
+      - name: sponsor
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Patrocinadores diferentes"
+
+  - name: stg_proyecto_final_partidos
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge todos los partidos y sus resultados"
+    columns:
+      - name: id_partido
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Identificador unico del partido"
+
+      - name: id_equipo_local
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Identificador unico del equipo local"
+
+      - name: resultado
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Resultado del partido"
+
+      - name: id_equipo_visitante
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Identificador unico del equipo visitante"
+
+      - name: ganador
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Ganador del partido"
+
+      - name: fecha
+        tests:
+              - not_null
+        data_type: DATE
+        description: "Fecha del partido"
+
+      - name: goles_local
+        tests:
+              - not_null
+        data_type: INT
+        description: "Goles del equipo local"
+
+      - name: goles_visitante
+        tests:
+              - not_null
+        data_type: INT
+        description: "Goles del equipo visitante"
+
+      - name: mvp
+        tests:
+              - not_null
+        data_type: INT
+        description: "Identificador unico del jugador mvp del partido"
+
+  - name: base_proyecto_final__PARTIDOS
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge todos los partidos y sus resultados"
+    columns:
+      - name: id_partido
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Identificador unico del partido"
+
+      - name: equipo_local
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del equipo local"
+
+      - name: resultado
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Resultado del partido"
+
+      - name: equipo_visitante
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del equipo visitante"
+
+      - name: ganador
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Ganador del partido"
+
+      - name: fecha
+        tests:
+              - not_null
+        data_type: DATE
+        description: "Fecha del partido"
+
+      - name: goles_local
+        tests:
+              - not_null
+        data_type: INT
+        description: "Goles del equipo local"
+
+      - name: goles_visitante
+        tests:
+              - not_null
+        data_type: INT
+        description: "Goles del equipo visitante"
+
+      - name: mvp
+        tests:
+              - not_null
+        data_type: INT
+        description: "Identificador unico del jugador mvp del partido"
