@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ ref('base_proyecto_final_PARTIDOS')}}
+    select * from {{ ref('base_proyecto_final__RESULTADOS')}}
 
 ),
 
