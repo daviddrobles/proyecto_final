@@ -86,3 +86,28 @@ sources:
           - name: mvp
             tests:
               - not_null
+
+      - name: EVENTOS_PARTIDOS
+        columns:
+          - name: ID_EVENTO
+            tests:
+              - unique
+              - not_null
+          - name: ID_PARTIDO
+            tests:
+              - not_null
+          - name: EQUIPO
+            tests:
+              - not_null
+          - name: ID_JUGADOR
+            tests:
+              - not_null
+          - name: NOMBRE_JUGADOR
+            tests:
+              - not_null
+          - name: TIPO_EVENTO
+            tests:
+              - not_null    
+          - name: MINUTO 
+            tests:
+              - not_null     

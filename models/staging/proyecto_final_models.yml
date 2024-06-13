@@ -143,7 +143,7 @@ models:
         data_type: varchar(256)
         description: "Nombre del equipo"
 
-  - name: stg_proyecto_final_informacion_jugador
+  - name: stg_proyecto_final_jugador
     config:
       contract:
         enforced: true
@@ -303,42 +303,6 @@ models:
         data_type: varchar(256)
         description: "Nacionalidades diferentes"
 
-  - name: stg_proyecto_final_nombre_jugadores
-    config:
-      contract:
-        enforced: true
-    description: "Tabla que recoge todos los nombres de los jugadores desglosados"
-    columns:
-      - name: id_jugador
-        tests:
-              - not_null 
-        data_type: INT
-        description: "Identificador unico de cada jugador"
-
-      - name: nombre_conocido
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Nombre por el que se conoce al jugador"
-
-      - name: nombre_jugador
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Nombre del jugador"
-
-      - name: primer_apellido
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Primer apellido del jugador"
-
-      - name: segundo_apellido
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Segundo apellido del jugador (o nombres/apellidos adicionales)"
-
   - name: stg_proyecto_final_pierna_habil
     config:
       contract:
@@ -393,7 +357,7 @@ models:
         data_type: varchar(256)
         description: "Patrocinadores diferentes"
 
-  - name: stg_proyecto_final_partidos
+  - name: stg_proyecto_final_resultados
     config:
       contract:
         enforced: true
@@ -408,6 +372,9 @@ models:
       - name: id_equipo_local
         tests:
               - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipos')
+                  field: id_equipo
         data_type: varchar(256)
         description: "Identificador unico del equipo local"
 
@@ -420,6 +387,9 @@ models:
       - name: id_equipo_visitante
         tests:
               - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipo')
+                  field: id_equipo
         data_type: varchar(256)
         description: "Identificador unico del equipo visitante"
 
@@ -450,10 +420,13 @@ models:
       - name: mvp
         tests:
               - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_jugador')
+                  field: id_jugador
         data_type: INT
         description: "Identificador unico del jugador mvp del partido"
 
-  - name: base_proyecto_final__PARTIDOS
+  - name: base_proyecto_final__RESULTADOS
     config:
       contract:
         enforced: true
@@ -512,3 +485,108 @@ models:
               - not_null
         data_type: INT
         description: "Identificador unico del jugador mvp del partido"
+
+  - name: base_proyecto_final__EVENTOS_PARTIDOS
+    config:
+      contract:
+        enforced: true
+    description: "Base que recoge los eventos del partido"
+    columns:
+      - name: id_evento
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Identificador unico del evento"
+
+      - name: id_partido
+        tests:
+              - not_null
+        data_type: INT
+        description: "Identificador unico del partido"
+
+      - name: equipo
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Equipo al que pertenece el jugador"
+
+      - name: id_jugador
+        tests:
+              - not_null
+        data_type: INT
+        description: "Identificador unico del jugador"
+
+      - name: nombre_jugador
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del jugador"
+
+      - name: tipo_evento
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Evento del partido"
+
+      - name: minuto
+        tests:
+              - not_null
+        data_type: INT
+        description: "Minuto cuando se produce el evento"
+
+  - name: stg_proyecto_final_eventos_partidos
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge los eventos del partido"
+    columns:
+      - name: id_evento
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Identificador unico del evento"
+
+      - name: id_partido
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_resultados')
+                  field: id_partido
+        data_type: INT
+        description: "Identificador unico del partido"
+
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipos')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo al que pertenece el jugador"
+
+      - name: id_jugador
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_jugador')
+                  field: id_jugador
+        data_type: INT
+        description: "Identificador unico del jugador"
+
+      - name: nombre_jugador
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del jugador"
+
+      - name: tipo_evento
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Evento del partido"
+
+      - name: minuto
+        tests:
+              - not_null
+        data_type: INT
+        description: "Minuto cuando se produce el evento"
