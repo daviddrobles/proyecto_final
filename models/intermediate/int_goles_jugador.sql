@@ -17,7 +17,8 @@ final as (
     select 
         j.id_jugador,
         j.nombre,
-        count(tipo_evento) as numero_goles
+        count(tipo_evento) as numero_goles,
+        avg(minuto) as minuto
         
     from jugador j
     join eventos e

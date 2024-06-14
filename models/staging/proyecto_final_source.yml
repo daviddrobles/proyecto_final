@@ -55,6 +55,9 @@ sources:
               - not_null
           - name: player_agent
           - name: outfitter
+          - name: LOAD_AT
+            tests:
+              - not_null
 
       - name: RESULTADOS
         columns:

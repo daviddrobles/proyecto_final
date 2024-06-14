@@ -1,112 +1,6 @@
 version: 2
 
 models:
-  - name: base_proyecto_final__JUGADORES
-    config:
-      contract:
-        enforced: true
-    description: "Base de la tabla jugadores de bronce"
-    columns:
-      - name: id_jugador
-        tests:
-              - not_null 
-        data_type: INT
-        description: "Identificador unico del jugador"
-
-      - name: nombre
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Nombre del jugador"
-
-      - name: nombre_completo
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Nombre completo (o real) del jugador"
-
-      - name: edad
-        tests:
-              - not_null
-        data_type: NUMBER(38,0)
-        description: "Edad del jugador"
-
-      - name: altura
-        tests:
-              - not_null
-        data_type: NUMBER(38,2)
-        description: "Altura del jugador"
-
-      - name: nacionalidad
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Nacionalidad del jugador"
-
-      - name: lugar_nacimiento
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Lugar de nacimiento del jugador"
-
-      - name: precio_millones
-        tests:
-              - not_null
-        data_type: NUMBER(38,3)
-        description: "Precio en millones de euros del jugador"
-
-      - name: precio_maximo__millones_historico
-        tests:
-              - not_null
-        data_type: NUMBER(38,2)
-        description: "Precio maximo en millones de euros del jugador"
-      
-      - name: posicion
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Posicion del jugador"
-
-      - name: numero_camiseta
-        tests:
-              - not_null
-        data_type: INT
-        description: "Numero de camiseta del jugador"
-
-      - name: pierna_habil
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Pierna habil del jugador"
-      
-      - name: equipo
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Equipo del jugador"
-
-      - name: fecha_expiracion_contrato
-        data_type: DATE
-        description: "Fecha de expiracion del contrato actual del jugador"
-
-      - name: fecha_fichaje_equipo
-        tests:
-              - not_null
-        data_type: DATE
-        description: "Fecha de fichaje del jugador por su equipo"
-
-      - name: agente
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Agente del jugador"
-
-      - name: sponsor
-        tests:
-              - not_null
-        data_type: varchar(256)
-        description: "Patrocionador del jugador"
-
   - name: stg_proyecto_final_agente
     config:
       contract:
@@ -426,6 +320,177 @@ models:
         data_type: INT
         description: "Identificador unico del jugador mvp del partido"
 
+  - name: stg_proyecto_final_eventos_partidos
+    config:
+      contract:
+        enforced: true
+    description: "Tabla que recoge los eventos del partido"
+    columns:
+      - name: id_evento
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Identificador unico del evento"
+
+      - name: id_partido
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_resultados')
+                  field: id_partido
+        data_type: INT
+        description: "Identificador unico del partido"
+
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipos')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo al que pertenece el jugador"
+
+      - name: id_jugador
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_jugador')
+                  field: id_jugador
+        data_type: INT
+        description: "Identificador unico del jugador"
+
+      - name: nombre_jugador
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del jugador"
+
+      - name: tipo_evento
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Evento del partido"
+
+      - name: minuto
+        tests:
+              - not_null
+        data_type: INT
+        description: "Minuto cuando se produce el evento"
+
+#-------------------------------------------------[BASES]---------------------------------------------------------------------#
+
+  - name: base_proyecto_final__JUGADORES
+    config:
+      contract:
+        enforced: true
+    description: "Base de la tabla jugadores de bronce"
+    columns:
+      - name: id_jugador
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Identificador unico del jugador"
+
+      - name: nombre
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del jugador"
+
+      - name: nombre_completo
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre completo (o real) del jugador"
+
+      - name: edad
+        tests:
+              - not_null
+        data_type: NUMBER(38,0)
+        description: "Edad del jugador"
+
+      - name: altura
+        tests:
+              - not_null
+        data_type: NUMBER(38,2)
+        description: "Altura del jugador"
+
+      - name: nacionalidad
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nacionalidad del jugador"
+
+      - name: lugar_nacimiento
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Lugar de nacimiento del jugador"
+
+      - name: precio_millones
+        tests:
+              - not_null
+        data_type: NUMBER(38,3)
+        description: "Precio en millones de euros del jugador"
+
+      - name: precio_maximo__millones_historico
+        tests:
+              - not_null
+        data_type: NUMBER(38,2)
+        description: "Precio maximo en millones de euros del jugador"
+      
+      - name: posicion
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Posicion del jugador"
+
+      - name: numero_camiseta
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de camiseta del jugador"
+
+      - name: pierna_habil
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Pierna habil del jugador"
+      
+      - name: equipo
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Equipo del jugador"
+
+      - name: fecha_expiracion_contrato
+        data_type: DATE
+        description: "Fecha de expiracion del contrato actual del jugador"
+
+      - name: fecha_fichaje_equipo
+        tests:
+              - not_null
+        data_type: DATE
+        description: "Fecha de fichaje del jugador por su equipo"
+
+      - name: agente
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Agente del jugador"
+
+      - name: sponsor
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Patrocionador del jugador"
+
+      - name: load_at
+        tests:
+              - not_null
+        data_type: timestamp_ntz
+        description: "Fecha de carga del dato insertado"
+
   - name: base_proyecto_final__RESULTADOS
     config:
       contract:
@@ -534,59 +599,130 @@ models:
         data_type: INT
         description: "Minuto cuando se produce el evento"
 
-  - name: stg_proyecto_final_eventos_partidos
+  - name: base_prueba
     config:
       contract:
         enforced: true
-    description: "Tabla que recoge los eventos del partido"
+    description: "Base de la tabla snapshots de silver"
     columns:
-      - name: id_evento
+      - name: id_jugador
         tests:
               - not_null 
         data_type: INT
-        description: "Identificador unico del evento"
-
-      - name: id_partido
-        tests:
-              - not_null
-              - relationships:
-                  to: ref('stg_proyecto_final_resultados')
-                  field: id_partido
-        data_type: INT
-        description: "Identificador unico del partido"
-
-      - name: id_equipo
-        tests:
-              - not_null
-              - relationships:
-                  to: ref('stg_proyecto_final_equipos')
-                  field: id_equipo
-        data_type: varchar(256)
-        description: "Identificador unico del equipo al que pertenece el jugador"
-
-      - name: id_jugador
-        tests:
-              - not_null
-              - relationships:
-                  to: ref('stg_proyecto_final_jugador')
-                  field: id_jugador
-        data_type: INT
         description: "Identificador unico del jugador"
 
-      - name: nombre_jugador
+      - name: nombre
         tests:
               - not_null
         data_type: varchar(256)
         description: "Nombre del jugador"
 
-      - name: tipo_evento
+      - name: nombre_completo
         tests:
               - not_null
         data_type: varchar(256)
-        description: "Evento del partido"
+        description: "Nombre completo (o real) del jugador"
 
-      - name: minuto
+      - name: edad
+        tests:
+              - not_null
+        data_type: NUMBER(38,0)
+        description: "Edad del jugador"
+
+      - name: altura
+        tests:
+              - not_null
+        data_type: NUMBER(38,2)
+        description: "Altura del jugador"
+
+      - name: nacionalidad
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nacionalidad del jugador"
+
+      - name: lugar_nacimiento
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Lugar de nacimiento del jugador"
+
+      - name: precio_millones
+        tests:
+              - not_null
+        data_type: NUMBER(38,3)
+        description: "Precio en millones de euros del jugador"
+
+      - name: precio_maximo__millones_historico
+        tests:
+              - not_null
+        data_type: NUMBER(38,2)
+        description: "Precio maximo en millones de euros del jugador"
+      
+      - name: posicion
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Posicion del jugador"
+
+      - name: numero_camiseta
         tests:
               - not_null
         data_type: INT
-        description: "Minuto cuando se produce el evento"
+        description: "Numero de camiseta del jugador"
+
+      - name: pierna_habil
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Pierna habil del jugador"
+      
+      - name: equipo
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Equipo del jugador"
+
+      - name: fecha_expiracion_contrato
+        data_type: DATE
+        description: "Fecha de expiracion del contrato actual del jugador"
+
+      - name: fecha_fichaje_equipo
+        tests:
+              - not_null
+        data_type: DATE
+        description: "Fecha de fichaje del jugador por su equipo"
+
+      - name: agente
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Agente del jugador"
+
+      - name: sponsor
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Patrocionador del jugador"
+
+      - name: load_at
+        tests:
+              - not_null
+        data_type: timestamp_ntz
+        description: "Fecha de carga del dato insertado"
+
+      - name: DBT_SCD_ID
+        data_type: text
+        description: ""
+
+      - name: DBT_UPDATED_AT
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: DBT_VALID_FROM
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: DBT_VALID_TO
+        data_type: timestamp_ntz
+        description: ""
