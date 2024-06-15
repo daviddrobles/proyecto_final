@@ -24,7 +24,12 @@ base as (
         fecha_expiracion_contrato,
         fecha_fichaje_equipo,
         {{dbt_utils.generate_surrogate_key(['agente'])}} as id_agente,
-        {{dbt_utils.generate_surrogate_key(['sponsor'])}} as id_sponsor
+        {{dbt_utils.generate_surrogate_key(['sponsor'])}} as id_sponsor,
+        load_at,
+        DBT_SCD_ID,
+        DBT_UPDATED_AT,
+        DBT_VALID_FROM,
+        DBT_VALID_TO
 
     from source
 )

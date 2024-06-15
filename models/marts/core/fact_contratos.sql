@@ -18,7 +18,8 @@ final AS (
         id_jugador,
         id_equipo,
         fecha_fichaje_equipo as fecha_inicio,
-        fecha_expiracion_contrato
+        fecha_expiracion_contrato,
+        IFF(CURRENT_TIMESTAMP > fecha_expiracion_contrato, FALSE, TRUE) as activo
 
     from jugador
 )
