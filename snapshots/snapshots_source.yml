@@ -1,0 +1,70 @@
+version: 2
+
+sources:
+
+  - name: snapshots # name of the source 
+    schema: snapshots # this is the schema our raw data lives in
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_SILVER_DB" # this is the name of our database
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    # freshness:
+    #  warn_after: {count: 24, period: hour}
+    #   error_after: {count: 48, period: hour}
+
+    tables:
+      
+      - name: JUGADORES_SNAPSHOT_CAMBIOS
+        columns:
+          - name: id
+            tests:
+              - not_null
+          - name: name
+            tests:
+              - not_null
+          - name: full_name
+          - name: age
+            tests:
+              - not_null
+          - name: height
+            tests:
+              - not_null
+          - name: nationality
+            tests:
+              - not_null    
+          - name: place_of_birth      
+          - name: price
+          - name: max_price
+          - name: position
+            tests:
+              - not_null
+          - name: shirt_nr
+            tests:
+              - not_null
+          - name: foot
+          - name: club
+            tests:
+              - not_null
+          - name: contract_expires
+          - name: joined_club
+            tests:
+              - not_null
+          - name: player_agent
+          - name: outfitter
+          - name: LOAD_AT
+            tests:
+              - not_null
+          - name: DBT_SCD_ID
+            tests:
+              - not_null
+          - name: DBT_UPDATED_AT
+            tests:
+              - not_null
+          - name: DBT_VALID_FROM
+            tests:
+              - not_null
+          - name: DBT_VALID_TO
+          

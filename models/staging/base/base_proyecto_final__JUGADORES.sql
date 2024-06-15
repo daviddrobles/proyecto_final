@@ -1,8 +1,8 @@
 with 
 
 source as (
-
-    select * from {{ source('proyecto_final', 'JUGADORES') }}
+    
+    select * from {{ source('snapshots', 'JUGADORES_SNAPSHOT_CAMBIOS') }}
 
 ),
 
@@ -25,7 +25,12 @@ renamed as (
         contract_expires::DATE as fecha_expiracion_contrato,
         joined_club::DATE as fecha_fichaje_equipo,
         IFF(player_agent IS NULL, 'Sin_agente', player_agent)::varchar(256) as agente,
-        IFF(outfitter IS NULL, 'Sin sponsor', outfitter)::varchar(256) as sponsor
+        IFF(outfitter IS NULL, 'Sin sponsor', outfitter)::varchar(256) as sponsor,
+        load_at,
+        DBT_SCD_ID,
+        DBT_UPDATED_AT,
+        DBT_VALID_FROM,
+        DBT_VALID_TO
 
     from source
 
