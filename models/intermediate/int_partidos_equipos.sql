@@ -43,9 +43,9 @@ final as (
     select
         equipo,
         id_equipo,
-        numero_partidos_locales,
-        numero_partidos_visitantes,
-        (numero_partidos_locales + numero_partidos_visitantes) as numero_partidos_total
+        numero_partidos_locales::INT as numero_partidos_locales,
+        numero_partidos_visitantes::INT as numero_partidos_visitantes,
+        (numero_partidos_locales + numero_partidos_visitantes)::INT as numero_partidos_total
 
     from victorias_arreglado
 )

@@ -17,7 +17,7 @@ final as (
     select 
         j.id_jugador,
         j.nombre,
-        count(r.mvp) as numero_mvp,
+        count(r.mvp)::INT as numero_mvp,
         j.id_equipo
         
     from jugador j

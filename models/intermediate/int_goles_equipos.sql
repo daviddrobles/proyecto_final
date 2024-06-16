@@ -41,9 +41,9 @@ final as(
     select
         equipo,
         id_equipo,
-        goles_locales_total,
-        goles_visitantes_total,
-        (goles_locales_total + goles_visitantes_total) as goles_totales
+        goles_locales_total::INT,
+        goles_visitantes_total::INT,
+        (goles_locales_total + goles_visitantes_total)::INT as goles_totales
     from goles_arreglado
 )
 

@@ -37,8 +37,8 @@ final as (
         id_equipo,
         IFF(equipo = 'Bayern Munich', (local_amount/2), local_amount)::INT as victorias_locales,
         IFF(equipo = 'Bayern Munich', (local_amount/2), visitante_amount)::INT as victorias_visitantes,
-        empate_amount as empate,
-        (victorias_locales + victorias_visitantes) as victorias_totales
+        empate_amount::INT as empate,
+        (victorias_locales + victorias_visitantes)::INT as victorias_totales
 
     from victorias
 )

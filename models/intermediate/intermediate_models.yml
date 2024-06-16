@@ -1,0 +1,194 @@
+version: 2
+
+models:
+  - name: int_goles_equipos
+    config:
+      contract:
+        enforced: true
+    description: "Tabla intermedia que calcula los goles de cada equipo"
+    columns:
+      - name: equipo
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Nombre del equipo"
+
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipo')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo"
+
+      - name: goles_locales_total
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles del equipo actuando como local"
+
+      - name: goles_visitantes_total
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles del equipo actuando como visitante"
+
+      - name: goles_totales
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Suma de los goles como local y como visitante"
+
+  - name: int_goles_jugador
+    config:
+      contract:
+        enforced: true
+    description: "Tabla intermedia que calcula los goles de cada jugador"
+    columns:
+      - name: id_jugador
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_jugador')
+                  field: id_jugador
+        data_type: varchar(256)
+        description: "Identificador unico del jugador"
+
+      - name: nombre
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del jugador"
+
+      - name: numero_goles
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles del jugador"
+
+      - name: minuto
+        tests:
+              - not_null 
+        data_type: number
+        description: "Minuto promedio en el que el jugador marca gol"
+
+  - name: int_mvp_jugador
+    config:
+      contract:
+        enforced: true
+    description: "Tabla intermedia que recoge el numero de mvp de cada jugador y su respectivo equipo"
+    columns:
+      - name: id_jugador
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_jugador')
+                  field: id_jugador
+        data_type: varchar(256)
+        description: "Identificador unico del jugador"
+
+      - name: nombre
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del jugador"
+
+      - name: numero_mvp
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de mvp del jugador"
+
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipo')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo"
+
+  - name: int_partidos_equipos
+    config:
+      contract:
+        enforced: true
+    description: "Tabla intermedia que recoge todos los partidos desglosados por equipo"
+    columns:
+      - name: equipo
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del equipo"
+
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipo')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo"
+
+      - name: numero_partidos_locales
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de partidos jugados como local de cada equipo"
+
+      - name: numero_partidos_visitantes
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de partidos jugados como visitante de cada equipo"
+
+      - name: numero_partidos_total
+        tests:
+              - not_null
+        data_type: INT
+        description: "Suma de los partidos como local y como visitante de cada equipo"
+
+  - name: int_victorias_equipos
+    config:
+      contract:
+        enforced: true
+    description: "Tabla intermedia que recoge todas las victorias desglosadas por equipo"
+    columns:
+      - name: equipo
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del equipo"
+
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipo')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo"
+
+      - name: victorias_locales
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de victorias como local de cada equipo"
+
+      - name: victorias_visitantes
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de victorias como visitante de cada equipo"
+
+      - name: empate
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de empates de cada equipo"
+
+      - name: victorias_totales
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de victorias totales de cada equipo"
