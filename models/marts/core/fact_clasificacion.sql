@@ -37,7 +37,7 @@ final as (
         pe.numero_partidos_total as partidos_jugados,
         ve.victorias_totales as victorias,
         empate,
-        (partidos_jugados - victorias - empate) as derrotas,
+        (partidos_jugados - victorias - empate)::INT as derrotas,
         ge.goles_totales as goles_a_favor,
         --goles_en_contra,
         --diferencia_goles,
