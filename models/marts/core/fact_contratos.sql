@@ -15,7 +15,7 @@ jugador as (
 final AS (
 
     select
-        id_jugador,
+        id_jugador::varchar(256) as id_jugador,
         id_equipo,
         fecha_fichaje_equipo as fecha_inicio,
         fecha_expiracion_contrato,

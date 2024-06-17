@@ -15,9 +15,9 @@ eventos as (
 final as (
 
     select 
-        j.id_jugador,
+        j.id_jugador::varchar(256) as id_jugador,
         j.nombre,
-        count(tipo_evento) as numero_goles::INT,
+        count(tipo_evento)::INT as numero_goles,
         avg(minuto) as minuto
         
     from jugador j

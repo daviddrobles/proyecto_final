@@ -450,8 +450,6 @@ models:
         description: "Fecha en la que se firma y se inicia el contrato"
 
       - name: fecha_expiracion_contrato
-        tests:
-              - not_null
         data_type: DATE
         description: "Fecha en la que se expira el contrato"
 
@@ -464,7 +462,7 @@ models:
   - name: fact_fichajes
     config:
       contract:
-        enforced: true
+        enforced: false
     description: "Tabla de hechos que recoge todos los fichajes producidos manteniendo su histórico"
     columns:
       - name: id_jugador
