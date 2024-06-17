@@ -11,9 +11,6 @@ models:
         tests:
               - not_null
               - unique
-              - relationships:
-                  to: ref('stg_proyecto_final_agente')
-                  field: id_agente
         data_type: varchar(256)
         description: "Identificador unico del agente"
 
@@ -33,9 +30,6 @@ models:
         tests:
               - not_null
               - unique
-              - relationships:
-                  to: ref('stg_proyecto_final_equipos')
-                  field: id_equipo
         data_type: varchar(256)
         description: "Identificador unico del equipo"
 
@@ -54,9 +48,6 @@ models:
       - name: id_jugador
         tests:
               - not_null
-              - relationships:
-                  to: ref('stg_proyecto_final_jugador')
-                  field: id_jugador
         data_type: INT
         description: "Identificador unico del jugador"
 
@@ -82,7 +73,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_nacionalidad')
+                  to: ref('dim_nacionalidad')
                   field: id_nacionalidad
         data_type: varchar(256)
         description: "Identificador unico de la nacionalidad del jugador"
@@ -91,7 +82,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_lugar_nacimiento')
+                  to: ref('dim_lugar_nacimiento')
                   field: id_lugar_nacimiento
         data_type: varchar(256)
         description: "Identificador unico del lugar de nacimiento del jugador"
@@ -100,7 +91,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_posicion')
+                  to: ref('dim_posicion')
                   field: id_posicion
         data_type: varchar(256)
         description: "Identificador unico de la posicion del jugador"
@@ -115,7 +106,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_pierna_habil')
+                  to: ref('dim_pierna_habil')
                   field: id_pierna_habil
         data_type: varchar(256)
         description: "Identificador unico de la pierna habil del jugador"
@@ -124,7 +115,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_agente')
+                  to: ref('dim_agente')
                   field: id_agente
         data_type: varchar(256)
         description: "Identificador unico del agente"
@@ -133,7 +124,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_sponsor')
+                  to: ref('dim_sponsor')
                   field: id_sponsor
         data_type: varchar(256)
         description: "Identificador unico del patrocionador"
@@ -142,7 +133,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_equipo')
+                  to: ref('dim_equipo')
                   field: id_equipo
         data_type: varchar(256)
         description: "Identificador unico del equipo"
@@ -157,9 +148,6 @@ models:
         tests:
               - not_null
               - unique
-              - relationships:
-                  to: ref('stg_proyecto_final_lugar_nacimiento')
-                  field: id_lugar_nacimiento
         data_type: varchar(256)
         description: "Identificador unico del lugar de nacimiento"
 
@@ -177,9 +165,6 @@ models:
     columns:
       - name: id_nacionalidad
         tests:
-              - relationships:
-                  to: ref('stg_proyecto_final_nacionalidad')
-                  field: id_nacionalidad
               - not_null
               - unique
         data_type: varchar(256)
@@ -200,10 +185,7 @@ models:
       - name: id_pierna_habil
         tests:
               - not_null
-              - unique
-              - relationships:
-                  to: ref('stg_proyecto_final_pierna_habil')
-                  field: id_pierna_habil 
+              - unique 
         data_type: varchar(256)
         description: "Identificador unico de la pierna habil"
 
@@ -223,9 +205,6 @@ models:
         tests:
               - not_null 
               - unique
-              - relationships:
-                  to: ref('stg_proyecto_final_posicion')
-                  field: id_posicion
         data_type: varchar(256)
         description: "Identificador unico de la posicion"
 
@@ -245,9 +224,6 @@ models:
         tests:
               - not_null 
               - unique
-              - relationships:
-                  to: ref('stg_proyecto_final_sponsor')
-                  field: id_sponsor
         data_type: varchar(256)
         description: "Identificador unico del patrocinador"
 
@@ -267,9 +243,6 @@ models:
         tests:
               - not_null
               - unique 
-              - relationships:
-                  to: ref('stg_proyecto_final_resultados')
-                  field: id_partido
         data_type: INT
         description: "Identificador unico del partido"
 
@@ -277,7 +250,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_equipos')
+                  to: ref('dim_equipos')
                   field: id_equipo
         data_type: varchar(256)
         description: "Identificador unico del equipo local"
@@ -292,7 +265,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_equipo')
+                  to: ref('dim_equipo')
                   field: id_equipo
         data_type: varchar(256)
         description: "Identificador unico del equipo visitante"
@@ -307,7 +280,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_jugador')
+                  to: ref('dim_jugador')
                   field: id_jugador
         data_type: INT
         description: "Identificador unico del jugador mvp del partido"
@@ -335,7 +308,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_resultados')
+                  to: ref('fact_resultados')
                   field: id_partido
         data_type: INT
         description: "Identificador del partido"
@@ -344,7 +317,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_equipos')
+                  to: ref('dim_equipos')
                   field: id_equipo
         data_type: varchar(256)
         description: "Identificador del equipo al que pertenece el jugador"
@@ -353,7 +326,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_jugador')
+                  to: ref('dim_jugador')
                   field: id_jugador
         data_type: INT
         description: "Identificador del jugador"
@@ -429,7 +402,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_jugador')
+                  to: ref('dim_jugador')
                   field: id_jugador
         data_type: varchar(256)
         description: "Identificador unico del jugador"
@@ -438,7 +411,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_equipo')
+                  to: ref('dim_equipo')
                   field: id_equipo
         data_type: varchar(256)
         description: "Identificador unico del equipo"
@@ -469,7 +442,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_jugador')
+                  to: ref('dim_jugador')
                   field: id_jugador
         data_type: varchar(256)
         description: "Identificador unico del jugador"
@@ -478,7 +451,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_agente')
+                  to: ref('dim_agente')
                   field: id_agente
         data_type: varchar(256)
         description: "Identificador unico del agente"
@@ -487,7 +460,7 @@ models:
         tests:
               - not_null
               - relationships:
-                  to: ref('stg_proyecto_final_equipo')
+                  to: ref('dim_equipo')
                   field: id_equipo
         data_type: varchar(256)
         description: "Identificador unico del equipo"

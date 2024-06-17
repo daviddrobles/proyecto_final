@@ -12,21 +12,9 @@ equipo as (
 
 ),
 
-victorias_equipos as (
+stats_equipos as (
 
-    select * from {{ ref('int_victorias_equipos') }}
-
-),
-
-goles_equipos as (
-
-    select * from {{ ref('int_goles_equipos') }}
-
-),
-
-partidos_equipos as (
-
-    select * from {{ ref('int_partidos_equipos') }}
+    select * from {{ ref('int_stats_equipos') }}
 
 ),
 
@@ -34,22 +22,18 @@ final as (
 
     select 
         e.equipo,
-        pe.numero_partidos_total as partidos_jugados,
-        ve.victorias_totales as victorias,
+        s.numero_partidos_total as partidos_jugados,
+        s.victorias_totales as victorias,
         empate,
         (partidos_jugados - victorias - empate)::INT as derrotas,
-        ge.goles_totales as goles_a_favor,
+        s.goles_totales as goles_a_favor,
         --goles_en_contra,
         --diferencia_goles,
-        (ve.victorias_totales*3) + (empate*1) as puntos
+        (s.victorias_totales*3) + (empate*1) as puntos
 
     from equipo e
-    join victorias_equipos ve
-    on e.id_equipo = ve.id_equipo
-    join goles_equipos ge
-    on e.id_equipo = ge.id_equipo
-    join partidos_equipos pe
-    on e.id_equipo = pe.id_equipo
+    join stats_equipos s
+    on e.id_equipo = s.id_equipo
     order by puntos DESC
 
 )
