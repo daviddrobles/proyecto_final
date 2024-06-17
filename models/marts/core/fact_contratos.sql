@@ -1,8 +1,8 @@
-{{
-    config(
-        materialized = "table"
-    )
-}}
+{{ config (
+    materialized='incremental',
+    on_schema_change='fail'
+    ) 
+    }}
 
 with 
 
@@ -19,9 +19,13 @@ final AS (
         id_equipo,
         fecha_fichaje_equipo as fecha_inicio,
         fecha_expiracion_contrato,
-        IFF(CURRENT_TIMESTAMP > fecha_expiracion_contrato, FALSE, TRUE)::BOOLEAN as activo
+        IFF(CURRENT_TIMESTAMP > fecha_expiracion_contrato, FALSE, TRUE)::BOOLEAN as activo,
+        load_at
 
     from jugador
 )
 
 select * from final
+{% if is_incremental() %}
+  where load_at > (select max(load_at) from {{ this }})
+{% endif %}

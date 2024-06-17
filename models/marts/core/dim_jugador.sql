@@ -1,8 +1,9 @@
-{{
-    config(
-        materialized = "table"
-    )
-}}
+{{ config(
+    materialized='incremental',
+    unique_key = 'id_jugador',
+    on_schema_change='fail'
+    ) 
+    }}
 
 with 
 
@@ -26,9 +27,13 @@ final AS (
         id_pierna_habil,
         id_agente,
         id_sponsor,
-        id_equipo
+        id_equipo,
+        load_at
 
     from jugador
 )
 
 select * from final
+{% if is_incremental() %}
+  where load_at > (select max(load_at) from {{ this }})
+{% endif %}
