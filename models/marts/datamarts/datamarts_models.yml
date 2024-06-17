@@ -1,0 +1,203 @@
+version: 2
+
+models:
+  - name: datamart_equipos
+    config:
+      contract:
+        enforced: true
+    description: "Mart que recoge toda la información a grano de equipo"
+    columns:
+      - name: equipo
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Nombre del equipo"
+
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('dim_equipo')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo"
+
+      - name: numero_partidos_locales
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de partidos jugados actuando como local"
+
+      - name: numero_partidos_visitantes
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de partidos jugador actuando como visitante"
+
+      - name: numero_partidos_total
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Suma de los partidos como local y como visitante"
+
+      - name: victorias_locales
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de victorias actuando como local"
+
+      - name: victorias_visitantes
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de victorias actuando como visitante"
+
+      - name: empate
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de empates"
+
+      - name: victorias_totales
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de victorias totales"
+
+      - name: goles_locales_total
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles actuando como local"
+
+      - name: goles_visitantes_total
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles actuando como visitante"
+
+      - name: goles_totales
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles totales"
+
+  - name: datamart_jugadores
+    config:
+      contract:
+        enforced: true
+    description: "Mart que recoge toda la información a grano de jugador"
+    columns:
+      - name: id_jugador
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('dim_jugador')
+                  field: id_jugador
+        data_type: varchar(256)
+        description: "Identificador unico del jugador"
+
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('dim_equipo')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo"
+
+      - name: nombre_jugador
+        tests:
+              - not_null
+        data_type: varchar(256)
+        description: "Nombre del jugador"
+
+      - name: numero_de_goles
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles del jugador"
+
+      - name: minuto_promedio_gol
+        tests:
+              - not_null 
+        data_type: number
+        description: "Minuto promedio en el que el jugador marca gol"
+
+      - name: numero_de_mvp
+        tests:
+              - not_null 
+        data_type: int
+        description: "Recuento del numero de mvp de cada jugador"
+
+      - name: goles_por_partido
+        tests:
+              - not_null 
+        data_type: number
+        description: "Promedio de goles por partido del jugador"
+
+  - name: datamart_partidos
+    config:
+      contract:
+        enforced: true
+    description: "Mart que recoge toda la información a grano de partido"
+    columns:
+      - name: numero_partidos
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de partidos disputados"
+
+      - name: numero_de_goles_totales
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de goles totales de todos los partidos"
+
+      - name: numero_de_goles_locales
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de goles locales de todos los partidos"
+
+      - name: numero_de_goles_visitantes
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles visitantes de todos los partidos"
+
+      - name: promedio_goles_por_partido
+        tests:
+              - not_null 
+        data_type: number
+        description: "Promedio de goles marcados por partido"
+
+      - name: promedio_goles_local_por_partido
+        tests:
+              - not_null 
+        data_type: number
+        description: "Promedio de goles marcados como local por partido"
+
+      - name: promedio_goles_visitante_por_partido
+        tests:
+              - not_null 
+        data_type: number
+        description: "Promedio de goles marcados como visitante por partido"
+
+      - name: numero_victorias_locales
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de victorias locales"
+
+      - name: numero_victorias_visitante
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de victorias visitantes"
+
+      - name: numero_empates
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de empates totales"

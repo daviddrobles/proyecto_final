@@ -43,7 +43,7 @@ models:
     config:
       contract:
         enforced: true
-    description: "Dimensión que recoge la informacion de todos los jugadores"
+    description: "Dimensión que recoge la informacion actual de todos los jugadores"
     columns:
       - name: id_jugador
         tests:
@@ -137,6 +137,12 @@ models:
                   field: id_equipo
         data_type: varchar(256)
         description: "Identificador unico del equipo"
+
+      - name: load_at
+        tests:
+              - not_null
+        data_type: timestamp_ntz
+        description: "Fecha de carga del dato"
 
   - name: dim_lugar_nacimiento
     config:
@@ -431,6 +437,12 @@ models:
               - not_null
         data_type: BOOLEAN
         description: "Indicador sobre si el contrato sigue en vigor o no"
+
+      - name: load_at
+        tests:
+              - not_null
+        data_type: timestamp_ntz
+        description: "Fecha de carga del dato"
 
   - name: fact_fichajes
     config:
