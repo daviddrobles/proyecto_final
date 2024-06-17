@@ -15,7 +15,7 @@ resultados as (
 final as (
 
     select 
-        j.id_jugador,
+        j.id_jugador::varchar(256) as id_jugador,
         j.nombre,
         count(r.mvp)::INT as numero_mvp,
         j.id_equipo

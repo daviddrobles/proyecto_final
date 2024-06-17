@@ -15,7 +15,7 @@ jugador as (
 final AS (
 
     select
-        id_jugador,
+        id_jugador as id_jugador,
         id_agente,
         id_equipo,
         precio_millones,
