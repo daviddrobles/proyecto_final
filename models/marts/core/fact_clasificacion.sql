@@ -18,7 +18,13 @@ stats_equipos as (
 
 ),
 
-final as (
+goles as (
+
+    select * from {{ ref('int_goles_en_contra_equipos') }}
+
+),
+
+tabla as (
 
     select 
         e.equipo,
@@ -27,15 +33,38 @@ final as (
         empate,
         (partidos_jugados - victorias - empate)::INT as derrotas,
         s.goles_totales as goles_a_favor,
-        --goles_en_contra,
-        --diferencia_goles,
-        (s.victorias_totales*3) + (empate*1) as puntos
+        goles_en_contra,
+        (goles_a_favor - goles_en_contra) as diferencia_goles,
+        (s.victorias_totales*3) + (empate*1) as puntos,
+        (puntos*100) + (diferencia_goles + victorias + empate - derrotas) as numero
 
     from equipo e
     join stats_equipos s
     on e.id_equipo = s.id_equipo
-    order by puntos DESC
+    join goles g
+    on e.id_equipo = g.id_equipo
+    order by numero DESC
 
+)
+
+-- select * from tabla
+,
+
+final as (
+
+    select
+        RANK () OVER (ORDER BY numero DESC) as puesto,
+        equipo,
+        puntos,
+        partidos_jugados,
+        victorias,
+        empate,
+        derrotas,
+        goles_a_favor,
+        goles_en_contra,
+        diferencia_goles
+
+    from tabla
 )
 
 select * from final

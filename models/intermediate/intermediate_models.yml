@@ -195,3 +195,42 @@ models:
               - not_null 
         data_type: INT
         description: "Numero de empates totales"
+
+  - name: int_goles_en_contra_equipos
+    config:
+      contract:
+        enforced: true
+    description: "Tabla intermedia que calcula los goles en contra de cada equipo"
+    columns:
+      - name: equipo
+        tests:
+              - not_null 
+        data_type: varchar(256)
+        description: "Nombre del equipo"
+
+      - name: id_equipo
+        tests:
+              - not_null
+              - relationships:
+                  to: ref('stg_proyecto_final_equipo')
+                  field: id_equipo
+        data_type: varchar(256)
+        description: "Identificador unico del equipo"
+
+      - name: goles_en_contra_l
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles totales que les han marcado los equipos locales"
+
+      - name: goles_en_contra_v
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles totales que les han marcado los equipos visitantes"
+
+      - name: goles_en_contra
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles totales que les han marcado en total"
