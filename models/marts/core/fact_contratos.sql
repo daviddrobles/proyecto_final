@@ -19,7 +19,7 @@ final AS (
         id_equipo,
         fecha_fichaje_equipo as fecha_inicio,
         fecha_expiracion_contrato,
-        IFF(CURRENT_TIMESTAMP > fecha_expiracion_contrato, FALSE, TRUE)::BOOLEAN as activo,
+        IFF(CURRENT_TIMESTAMP > fecha_expiracion_contrato OR DBT_VALID_TO IS NOT NULL, FALSE, TRUE)::BOOLEAN as activo,
         load_at
 
     from jugador
