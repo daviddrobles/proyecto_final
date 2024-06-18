@@ -355,12 +355,26 @@ models:
         enforced: true
     description: "Tabla de hechos que recoge la clasificacion de la liga"
     columns:
+
+      - name: puesto
+        tests:
+              - not_null
+              - unique
+        data_type: INT
+        description: "Posicion del equipo"
+
       - name: equipo
         tests:
               - not_null 
               - unique
         data_type: varchar(256)
         description: "Nombre del equipo"
+
+      - name: puntos
+        tests:
+              - not_null
+        data_type: INT
+        description: "Numero de puntos por equipo"
 
       - name: partidos_jugados
         tests:
@@ -392,11 +406,17 @@ models:
         data_type: INT
         description: "Numero de goles a favor por equipo"
 
-      - name: puntos
+      - name: goles_en_contra
         tests:
               - not_null
         data_type: INT
-        description: "Numero de puntos por equipo"
+        description: "Numero de goles en contra por equipo"
+
+      - name: diferencia_goles
+        tests:
+              - not_null
+        data_type: INT
+        description: "Balance entre goles a favor y goles en contra"
 
   - name: fact_contratos
     config:

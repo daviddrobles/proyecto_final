@@ -82,6 +82,24 @@ models:
         data_type: INT
         description: "Numero de goles totales"
 
+      - name: goles_en_contra_l
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles totales que les han marcado los equipos locales"
+
+      - name: goles_en_contra_v
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles totales que les han marcado los equipos visitantes"
+
+      - name: goles_en_contra
+        tests:
+              - not_null 
+        data_type: INT
+        description: "Numero de goles totales que les han marcado en total"
+
   - name: datamart_jugadores
     config:
       contract:
