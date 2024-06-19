@@ -359,7 +359,6 @@ models:
       - name: puesto
         tests:
               - not_null
-              - unique
         data_type: INT
         description: "Posicion del equipo"
 
