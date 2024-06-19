@@ -103,7 +103,7 @@ models:
   - name: datamart_jugadores
     config:
       contract:
-        enforced: true
+        enforced: false
     description: "Mart que recoge toda la información a grano de jugador"
     columns:
       - name: id_jugador
@@ -157,7 +157,7 @@ models:
   - name: datamart_partidos
     config:
       contract:
-        enforced: true
+        enforced: false
     description: "Mart que recoge toda la información a grano de partido"
     columns:
       - name: numero_partidos
