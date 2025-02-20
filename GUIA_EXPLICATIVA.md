@@ -100,7 +100,7 @@ En esta carpeta se realizan las primeras transformaciones, traducciones y organi
 
 Sin embargo, existe una carpeta BASE dentro de Staging.
 
-### Base 
+### BASE 
 
 Como he mencionado anteriormente, en la carpeta Staging se empieza con las primeras transformaciones y, en mi caso, comencé a normalizar la tabla de "JUGADORES".
 Para facilitar el trabajo y no tener que estar modificando el dato constantemente o renombrando cada columna, utilicé carpeta BASE donde realicé los primeros cambios importantes para, posteriormente, trabajar cómodamente con la tabla ya "arreglada".
@@ -128,7 +128,7 @@ Volví a corregir los tipos de datos a varchar, date e INT.
 Apareció uno de los primeros problemas, muchos campos estaban vacíos, es decir, NULL.
 Utilicé una función condicional IFF() para reemplazar los NULL de cada campo por un "Desconocido" o algún otro como "Sin_agente" para evitar errores mas adelante con los campos vacíos.
 
-### Resto de modelos de Staging
+### RESTO DE MODELOS DE STAGING
 
 Después de haber realizado esos cambios generales en la carpeta BASE para no tener que realizarlos en cada modelo de Staging, normalicé la tabla de JUGADORES generando un modelo para cada equipo, agente, jugador, pierna habil, lugar de nacimiento, nacionalidad, posicion y sponsor.
 
@@ -139,4 +139,37 @@ Por ejemplo: stg_proyecto_final_equipos.sql > selecciono únicamente la columna 
 ***Nota: utilizar dbt_utils.generate_surrogate_key puede no ser la mejor práctica***
 
 Realicé este mismo proceso en todos mis modelos de Staging.
+
+## INTERMEDIATE 
+
+La carpeta intermediate de DBT es utilizada para obtener campos calculados y operaciones evitando tener que realizarlas más adelante. Esta carpeta no es obligatoria y se utiliza para crear modelos intermedios.
+
+## int_goles_en_contra_equipos.sql
+
+En este modelo intermedio tengo como objetivo calcular los goles en contra que recibe cada equipo, tanto de local como de visitante.
+Para ello traigo todo el contenido de las tablas "EQUIPOS" y "RESULTADOS" referenciando mi Staging. 
+
+- Creo una primera CTE con el nombre del equipo, su id y los goles en contra jugando de local uniendo las tablas mediante un join.
+- Creo una segunda CTE haciendo lo mismo pero a la inversa, obteniendo los goles en contra jugando de visitante.
+
+***En esta CTE tuve que solucionar un problema. Cuando generé la tabla "RESULTADOS" aleatoriamente, no me generó partidos del FC Bayern Munich actuando de visitante, así que tuve que dividir los datos interpretando que ha jugado la mitad de los partidos como visitante***
+
+- Creé una tercera CTE solucionando este mismo problema con los goles locales y uniendo ambos campos, goles locales y visitantes en una misma "tabla".
+- Y, por último, creé una cuarta CTE con el mismo contenido de la anterior y añadiendo una nueva columna que sume los goles locales y visitantes como totales.
+
+## int_stats_equipos.sql
+
+Para este modelo intermedio quería conseguir estadísticas a nivel de equipo como sus partidos como locales, visitantes y totales; victorias como locales, visitantes y totales; goles como locales, visitantes y totales...
+Traje todo el contenido de mi tabla "EQUIPOS" y "RESULTADOS" referenciando mi Staging.
+
+Antes de realizar nada, establezco una variable "ganador_" que busque resultados de victorias "Local", "Visitante" o "Empates".
+
+- Creo una primera CTE que cuenta el numero de partidos como local y visitante y utilizo un bucle para crear 3 columnas adicionales que añadan el número de victorias locales, visitantes o empates de cada equipo uniendo las tablas mediante un join.
+- Creo una segunda CTE corrigiendo el mismo error anteriormente citado acerca del equipo FC Bayern Munich. Además, cambio el nombre de las columnas, ya que con el bucle utilizado se creaban las columnas con el nombre de "local_amount", "visitante_amount" y "empate_amount", corrijo sus tipos de dato y añado un nuevo campo calculado sumando las victorias locales y visitantes para obtener el número total.
+- Creo una tercera CTE añadiendo los goles locales y visitantes de cada equipo y corregí los nombres y tipos de dato de varias columnas
+- Creo una cuarta CTE corrigiendo el mismo error anteriormente citado acerca del equipo FC Bayern Munich.
+- Y, por último, creo una quinta CTE arreglando algunos tipos de dato y añadiendo el último campo calculado sumando los goles locales y visitantes para obtener los totales
+
+## int_stats_jugador.sql
+
 
