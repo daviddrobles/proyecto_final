@@ -190,4 +190,98 @@ Nuevamente, antes de realizar nada, volví a establecer la variable "ganador_" p
 
 # MARTS
 
-La carpeta MARTS, la última de DBT, se utiliza para materializar como tablas las dimensiones y tablas de hecho (aunque no todas las tablas de hecho son tablas y ya, algunas son **incrementales**). En esta carpeta se almacenan los modelos finales diseñados para realizar reportes o dashboards
+La carpeta MARTS, la última de DBT, se utiliza para materializar como tablas las dimensiones y tablas de hecho (aunque no todas las tablas de hecho son tablas y ya, algunas son **incrementales**). En esta carpeta se almacenan los modelos finales diseñados para realizar reportes o dashboards.
+
+## CORE
+
+La carpeta CORE dentro de la carpeta de MARTS es utilizada para todas las dimensiones y tablas de hecho comunes que pueden ser analizadas. 
+
+### DIMENSIONES
+
+Aquí se encuentran, lógicamente, mis dimensiones. La gran mayoría son un "SELECT *" de mi Staging, ya que dejé todas las transformaciones, renombramientos y/u operaciones listos, con lo cual, no tenía que realizar nada más.
+
+Excepto en dos dimensiones:
+
+- La dimensión tiempo (dim_tiempo)
+
+Debido a que no tengo ninguna información acerca de las fechas, tuve que crear una dimensión de tiempo entre la fecha más baja y más alta existentes en mi tabla original.
+
+- La dimensión jugador (dim_jugador)
+
+Aunque pueda parecer una dimensión más que únicamente aporta información de cada jugador, debemos tener en cuenta que debe ser incremental ya que pueden aparecer o desaparecer nuevos jugadores a lo largo de la temporada.
+
+Para lograr esto, tuve que materializar el modelo como "Incremental" en base a la clave única que era el "id_jugador".
+
+### TABLAS DE HECHO
+
+Además de mis dimensiones, creé 5 tablas de hecho. Las tablas de hecho almacenan eventos y contienen métricas cuantificables relacionadas con una o más dimensiones. Habitualmente están cambiando periódicamente.
+
+- fact_resultados.sql
+
+Mi primera tabla de hecho no es más que los resultados de los partidos de la temporada y la creé mediante un "SELECT *" de mi Staging. Considero que es una tabla de hecho porque normalmente los partidos de una temporada se juegan jornada a jornada y la información se va ingestando poco a poco, con lo cual, la tabla de hecho cambiaría cada cierto tiempo. La materialicé como tabla.
+
+- fact_eventos_partidos.sql
+
+Mi segunda tabla de hecho va de la mano con la primera, pues son los eventos de cada partido y también la pude crear mediante un "SELECT *" de mi Staging. Vuelvo a considerar que es una tabla de hecha por el mismo motivo anterior. Materializada como tabla.
+
+- fact_clasificacion.sql
+
+La tercera tabla de hecho que quise crear es la clasificación de la liga. 
+
+Esta tabla de hecho sí tiene algo más de "misterio". Tuve que utilizar mi Stage de "EQUIPOS" y dos de mis modelos intermedios "stats_equipos" y "goles_en_contra_equipos".
+
+***¿Para qué?***
+
+Pues de mi Stage de equipos puedo utilizar el nombre de cada equipo, de mi modelo intermedio de "stats_equipos" obtengo las victorias, derrotas, empates, goles a favor, partidos jugados... y de mi modelo intermedio de "goles_en_contra_equipos" obtengo los goles en contra de cada equipo.
+
+Creé una CTE utilizando los goles totales a favor y en contra para obtener la diferencia de goles uniendo los 3 modelos. 
+Multiplicando cada victoria x 3 obtengo los puntos por victoria y sumando el número de empates obtengo los puntos totales de cada equipo.
+Y me inventé una columna con una fórmula que utilizaré en la siguiente CTE para ordenar la clasificación llamada "numero". Esta columna lo que hacía era multiplicar los puntos x 100, le sumaba la diferencia de goles, victorias, empates y le restaba las derrotas.
+
+Finalmente, creé la última CTE creando un RANK () OVER particionado por la columna "número" para ordenar los equipos del 1ro al último. Le puse de nombre "puesto" y así logré tener la clasificación correcta.
+
+La materialicé como tabla.
+
+- fact_fichajes.sql
+
+La penúltima tabla de hecho que creé era sobre los fichajes que se producían en la liga.
+
+**Esta tabla de hecho no podía ser materializada como tabla, ya que los fichajes pueden producirse en cualquier momento y pueden aparecer nuevos. Debido a esto, la materialicé como "Incremental".**
+
+Traje toda la información de mi Stage de jugador referenciándolo.
+
+Aunque solo me quedé con el id del jugador, el id del agente, el id del equipo, el precio del jugador y la fecha de fichaje por el equipo.
+
+- fact_contratos.sql
+
+Por último, mi quinta tabla de hecho era sobre los contratos de los jugadores con sus equipos.
+
+**Esta tabla de hecho tampoco podía ser materializada como tabla por la misma razón que la anterior. La materialicé como "Incremental".**
+
+Traje toda la información de mi Stage de jugador referenciándolo.
+
+Me quedé con el id del jugador, el id del equipo por el que había firmado, consideré que la fecha de fichaje por su equipo era la fecha en la que iniciaba el contrato, la fecha de expiración del contrato y creé un nuevo campo booleano para comprobar si el contrato estaba activo (TRUE) o no (FALSE) llamado "activo" comparando si la fecha de hoy es mayor a la fecha de expiración del contrato, así sabía que si la fecha actual había pasado la fecha de expiración, el contrato no estaba vigente.
+
+### DATAMARTS
+
+Para acabar la parte de DBT, creé algunos Datamarts.
+
+***¿Qué son los Datamarts?***
+
+Un datamart es un conjunto de datos diseñado para un área específica de negocio permitiendo un acceso rápido y eficiente a los datos que necesiten los usuarios finales.
+
+Son, digamos, casos prácticos donde se podrían utilizar los datos limpios.
+
+Para este proyecto se me ocurrieron varios ya que tenía prácticamente todos los datos pre-calculados en mi carpeta Intermediate:
+
+- datamart_equipos.sql
+
+En este datamart recopilo información acerca de los equipos uniendo mis dos modelos intermedios de "stats_equipos" y "goles_en_contra_equipos" mediante un join.
+
+- datamart_jugadores.sql
+
+Para este datamart traigo información acerca de los jugadores uniendo mis dos modelos intermedios de "stats_equipos" para coger el número de partidos totales y "stats_jugadores" mediante un join.
+
+- datamart_partidos.sql
+
+Por último, en este datamart almaceno información a nivel de partidos referenciando mi modelo intermedio "stats_partidos".
