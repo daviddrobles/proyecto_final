@@ -68,7 +68,7 @@ Y, *¿cómo funciona?*
 
 DBT compara la tabla de origen con la información ya existente, y si un registro insertado tiene un "id" diferente, se insertará con normalidad, pero si ese "id" ya existe en la tabla y el "LOAD_AT" ha cambiado, se generará una nueva versión de ese registro en la tabla.
 
-*Por ejemplo: El jugador con id "1" ya existe en nuestra tabla desde 2020 y es "David". En 2025 insertamos el jugador con id "2" llamado "Pedro" y volvemos a insertar el jugador con "id" 1 pero con nombre "Pablo".
+*Por ejemplo: El jugador con id "1" ya existe en nuestra tabla desde 2020 y es "David". En 2024 insertamos el jugador con id "2" llamado "Pedro" y volvemos a insertar el jugador con "id" 1 pero con nombre "Pablo".
 Cuando DBT compare la información ya existente (el jugador 1) con la información que está siendo ingestada (el jugador 1 y 2), insertará con normalidad al jugador 2, puesto que no existe, pero con el jugador 1 deberá versionarlo ya que ha cambiado su LOAD_AT y deberán existir 2 versiones de ese jugador 1, la que existió (David) desde 2020 hasta 2024 y la que existe actualmente (Pablo) desde 2024.*
 
 Y, *¿para qué?* 
