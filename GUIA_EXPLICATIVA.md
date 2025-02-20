@@ -74,7 +74,7 @@ Cuando DBT compare la información ya existente (el jugador 1) con la informaci�
 Y, *¿para qué?* 
 
 Creé una Snapshot en DBT llamada "jugadores_snapshot_cambios" para poder rastrear los cambios en la tabla de "JUGADORES" a partir del campo "LOAD_AT" considerando que ha habido un cambio cuando ese campo es modificado.
-Esta Snapshot me sirvió para estar al tanto y saber si algún jugador ha cumplido años y su edad ha cambiado, si han fichado por otro equipo o si su posición el campo ha cambiado.
+Esta Snapshot me sirvió para estar al tanto y saber si algún jugador ha cumplido años y su edad ha cambiado, si han fichado por otro equipo o si su posición en el campo ha cambiado.
 
 ## Macros
 
