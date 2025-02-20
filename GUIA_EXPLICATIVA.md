@@ -178,7 +178,7 @@ Traje todo el contenido de mi tabla "JUGADOR", "RESULTADOS" y "EVENTOS_PARTIDOS"
 - Creé una primera CTE modificando algunos tipos de dato, renombrando algunas columnas y obteniendo el número de goles y el minuto promedio de gol de cada jugador uniendo las tablas "JUGADOR" y "EVENTOS_PARTIDOS".
 - Creé una segunda CTE uniendo la anterior CTE creada con "RESULTADOS" mediante un join para obtener el número de mvp's de cada jugador.
 
-## /int_stats_partidos.sql
+## int_stats_partidos.sql
 
 Finalmente, en mi último modelo intermedio busco almacenar estadísticas pero ahora a nivel de partidos como el numero de partidos totales, el numero de goles totales, locales y visitantes, el promedio de goles por partido, locales y visitantes, numero de victorias, locales y visitantes y número de empates.
 Traje todo el contenido de mi tabla "RESULTADOS" referenciando mi Staging.
@@ -187,3 +187,7 @@ Nuevamente, antes de realizar nada, volví a establecer la variable "ganador_" p
 
 - Creé una primera CTE contando el número de registros como el número de partidos, obtuve los goles locales y visitantes, dividiendo el número de goles totales por el número de partidos totales obtuve el promedio de goles por partido, obtuve el promedio de goles locales y visitantes por partido y obtuve el número de victorias locales, visitantes y empates.
 - Creé una segunda CTE corrigiendo los tipos de dato y renombrando las columnas.
+
+# MARTS
+
+La carpeta MARTS, la última de DBT, se utiliza para materializar como tablas las dimensiones y tablas de hecho (aunque no todas las tablas de hecho son tablas y ya, algunas son **incrementales**). En esta carpeta se almacenan los modelos finales diseñados para realizar reportes o dashboards
