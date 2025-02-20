@@ -75,3 +75,68 @@ Y, *¿para qué?*
 
 Creé una Snapshot en DBT llamada "jugadores_snapshot_cambios" para poder rastrear los cambios en la tabla de "JUGADORES" a partir del campo "LOAD_AT" considerando que ha habido un cambio cuando ese campo es modificado.
 Esta Snapshot me sirvió para estar al tanto y saber si algún jugador ha cumplido años y su edad ha cambiado, si han fichado por otro equipo o si su posición el campo ha cambiado.
+
+## Macros
+
+Crear macros te simplifica bastante el trabajo y es mucho más fácil realizar algunas tareas complejas.
+Por eso creé dos macros:
+
+### ObtenerValores.sql
+
+Esta macro es sencilla, lo único que hace es obtener los valores únicos que existen en una tabla. Realmente lo que ejecuta es un "SELECT DISTINCT" con el fin de obtener todos los registros diferentes existentes.
+
+Esto puede ser útil si queremos saber cuántos registros diferentes hay en una columna, por ejemplo, todos los equipos que existen o todas las nacionalidades diferentes.
+A la hora de normalizar tablas, esta macro vendrá bastante bien.
+
+### ObtenerVictorias.sql
+
+La segunda y última macro que utilicé se utilizó para contar el número de veces de victorias locales, visitantes o empates.
+
+## STAGING
+
+La carpeta Staging es la primera carpeta en la que se trabaja con los datos en DBT. 
+Se reciben los datos raw para proceder a realizar una primera limpieza con el fin de trabajar con unos datos legibles o correctos.
+En esta carpeta se realizan las primeras transformaciones, traducciones y organizaciones.
+
+Sin embargo, existe una carpeta BASE dentro de Staging.
+
+### Base 
+
+Como he mencionado anteriormente, en la carpeta Staging se empieza con las primeras transformaciones y, en mi caso, comencé a normalizar la tabla de "JUGADORES".
+Para facilitar el trabajo y no tener que estar modificando el dato constantemente o renombrando cada columna, utilicé carpeta BASE donde realicé los primeros cambios importantes para, posteriormente, trabajar cómodamente con la tabla ya "arreglada".
+
+**Todos los modelos de BASE tienen como source una tabla existente en Snowflake, a partir de esta, ya se referencian entre ellos en DBT para crear el linaje**
+
+- base_proyecto_final__EVENTOS_PARTIDOS.sql
+
+En esta primera base trabajo sobre la tabla "EVENTOS_PARTIDOS" de Snowflake y lo que realizo son transformaciones a INT (tipo de dato entero) y a varchar (tipo de dato texto) estableciendo los tipos correctos para poder realizar operaciones sobre ellos mas adelante.
+
+- base_proyecto_final__RESULTADOS.sql
+
+En esta segunda base trabajo sobre la tabla "RESULTADOS" de Snowflake y aquí ya realizo una limpieza algo más complicada.
+
+Nuevamente corrijo los tipos de datos, en este caso INT y DATE (fecha).
+Y, por otro lado, tenía que introducir el nombre correcto del equipo, así que utilicé un IFF() para modificar su nombre y que esté correctamente escrito.
+
+- base_proyecto_final__JUGADORES.sql
+
+Por último, la tercera base, realizada sobre la tabla "JUGADORES".
+
+En esta base tuve que realizar más operaciones y una limpieza aún mayor, ya que esta tabla era la original del .csv y tenía algunos campos vacíos y tipos de datos que no correspondían.
+Volví a corregir los tipos de datos a varchar, date e INT.
+
+Apareció uno de los primeros problemas, muchos campos estaban vacíos, es decir, NULL.
+Utilicé una función condicional IFF() para reemplazar los NULL de cada campo por un "Desconocido" o algún otro como "Sin_agente" para evitar errores mas adelante con los campos vacíos.
+
+### Resto de modelos de Staging
+
+Después de haber realizado esos cambios generales en la carpeta BASE para no tener que realizarlos en cada modelo de Staging, normalicé la tabla de JUGADORES generando un modelo para cada equipo, agente, jugador, pierna habil, lugar de nacimiento, nacionalidad, posicion y sponsor.
+
+Referenciando el modelo creado en BASE a partir de la tabla en BRONZE de Snowflake de "JUGADORES" traje toda la información que necesitaba para cada modelo/tabla y generé un identificador único para poder relacionar los modelos entre sí y que cada id exista en todas las tablas que debe aparecer.
+
+Por ejemplo: stg_proyecto_final_equipos.sql > selecciono únicamente la columna "equipo" (en lugar de *) de mi BASE de "JUGADORES" para optimizar la consulta y genero una id única a partir del nombre de cada equipo con {{dbt_utils.generate_surrogate_key(['equipo'])}} as id_equipo
+
+***Nota: utilizar dbt_utils.generate_surrogate_key puede no ser la mejor práctica***
+
+Realicé este mismo proceso en todos mis modelos de Staging.
+
